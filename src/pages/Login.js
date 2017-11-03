@@ -31,15 +31,35 @@ class LoginPage extends Component {
 			buttonView={<FBLoginView />}
 			ref={(fbLogin) => { this.fbLogin = fbLogin }}
 			loginBehavior={FBLoginManager.LoginBehaviors.Native}
-			permissions={["email","user_friends"]}
+			permissions={["email"]}
 			onLogin={function(e){
 				console.log('login ', e);
-				Actions.home();
 				const credential = firebase.auth.FacebookAuthProvider.credential(e.credentials.token);
 				firebase
 					.auth()
 					.signInWithCredential(credential)
-					.then(() => alert('Account accepted'))
+					.then(result => {
+						console.log('result ', result)
+						const uid = result.uid;
+						db.ref(`users/${uid}`).once('value', snapshot => {
+							const val = snapshot.val();
+							if(!!val){
+								const user = {
+									firstName: val.firstName,
+									lastName: val.lastName,
+									email: val.email,
+									qrCode: val.qrCode,
+									photo_url: val.picture.data.url,
+									companyName: val.companyName,
+									companyPosition: val.companyPosition,
+								}
+								this.props.actions.updateUser(user);
+								Actions.home();
+							}else{
+								Actions.profile({fbProfile: e.profile, firebase_uid: uid});
+							}
+						})
+					})
 					.catch((error) => alert('Account disabled'));
 				console.log('login end');
 			}}

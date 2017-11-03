@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
 });
 
 export default connect((state) => ({
-    'state': state,
+    'user': state.user,
 }), (dispatch) => ({
     actions: bindActionCreators(actions, dispatch)
 })

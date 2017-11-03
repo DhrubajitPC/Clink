@@ -37,6 +37,7 @@ const store = compose(
 // pages
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Profile from './pages/Profile';
 
 // require('./config');
 
@@ -53,6 +54,10 @@ export default class App extends Component<{}> {
             <Scene
               key='home'
               component={Home}
+            />
+            <Scene
+              key='profile'
+              component={Profile}
             />
           </Stack>
         </RouterWithRedux>
