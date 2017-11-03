@@ -11,6 +11,8 @@ import {
   Text,
   View
 } from 'react-native';
+import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
+import FBLoginView from './components/fbLoginView';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -32,6 +34,18 @@ export default class App extends Component<{}> {
         <Text style={styles.instructions}>
           {instructions}
         </Text>
+        <FBLogin
+          buttonView={<FBLoginView />}
+          ref={(fbLogin) => { this.fbLogin = fbLogin }}
+          loginBehavior={FBLoginManager.LoginBehaviors.Native}
+          permissions={["email","user_friends"]}
+          onLogin={function(e){console.log('login ', e)}}
+          onLoginFound={function(e){console.log('loginfound ', e)}}
+          onLoginNotFound={function(e){console.log('loginnotfound ', e)}}
+          onLogout={function(e){console.log('logout ', e)}}
+          onCancel={function(e){console.log('cancel ', e)}}
+          onPermissionsMissing={function(e){console.log('permissionmissing ', e)}}
+        />
       </View>
     );
   }

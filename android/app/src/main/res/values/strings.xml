@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Clink</string>
+    <string name="facebook_app_id">153462581927970</string>
+     <string name="fb_login_protocol_scheme">fb153462581927970</string>
 </resources>
