@@ -4,6 +4,7 @@ import {
 	Text,
 	Platform,
 	StyleSheet,
+	Button,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
@@ -31,6 +32,9 @@ class HomePage extends Component {
 			<Text style={styles.instructions}>
 				{instructions}
 			</Text>
+			<Button
+				title="Profile"
+				onPress={Actions.profile} />
 		</View>
 	}
 }

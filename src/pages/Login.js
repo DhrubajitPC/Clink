@@ -26,7 +26,13 @@ const db = firebase.database();
 
 
 class LoginPage extends Component {
+	constructor(props){
+		super(props);
+		console.log(31, props);
+	}
+
 	render(){
+		const actions = this.props.actions;
 		return <FBLogin
 			buttonView={<FBLoginView />}
 			ref={(fbLogin) => { this.fbLogin = fbLogin }}
@@ -43,19 +49,22 @@ class LoginPage extends Component {
 						const uid = result.uid;
 						db.ref(`users/${uid}`).once('value', snapshot => {
 							const val = snapshot.val();
-							if(!!val){
+							if(!!val) {
+								console.log(53, val);
 								const user = {
 									firstName: val.firstName,
 									lastName: val.lastName,
 									email: val.email,
 									qrCode: val.qrCode,
-									photo_url: val.picture.data.url,
+									photo_url: val.photo,
 									companyName: val.companyName,
 									companyPosition: val.companyPosition,
+									uid: val.uid,
 								}
-								this.props.actions.updateUser(user);
+								console.log(61, this.props);
+								actions.updateUser(user);
 								Actions.home();
-							}else{
+							} else {
 								Actions.profile({fbProfile: e.profile, firebase_uid: uid});
 							}
 						})
