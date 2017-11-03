@@ -27,6 +27,7 @@ const type = t.struct({
 		firstName: t.String,
 		lastName: t.String,
 		email: t.String,
+		contactNumber: t.Number,
 		companyName: t.String,
 		companyPosition: t.String,
 		qrCode: t.maybe(t.String),
@@ -46,6 +47,10 @@ const options = {
 		email: {
 			label: 'Email Address*',
 			error: 'Email Address cannot be blank',
+		},
+		contactNumber: {
+			label: 'Contact Number*',
+			error: 'Contact Number cannot be blank',
 		},
 		companyName: {
 			label: 'Company Name*',
@@ -83,10 +88,11 @@ class ProfilePage extends Component {
 			};
 		} else {
 			initialValues = {
-				firstName: user.first_name,
-				lastName: user.last_name,
+				firstName: user.firstName,
+				lastName: user.lastName,
 				email: user.email,
 				photo: user.photo,
+				contactNumber: user.contactNumber,
 				companyName: user.companyName,
 				companyPosition: user.companyPosition,
 				uid: user.uid,
