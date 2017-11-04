@@ -50,12 +50,15 @@ export default class App extends Component<{}> {
             <Scene
               key='login'
               component={Login}
+              title='Login'
               initial />
             <Scene
               key='home'
+              title='Clink'
               component={Home}
             />
             <Scene
+              title='Profile'
               key='profile'
               component={Profile}
             />
