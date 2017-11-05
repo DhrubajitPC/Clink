@@ -13,12 +13,13 @@ import * as actions from '../actionCreators';
 
 // facebook oauth
 import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
-import FBLoginView from '../components/fbLoginView';
 
 //firebase
 import config from '../config';
 import * as firebase from 'firebase';
-firebase.initializeApp(config);
+if (!firebase.apps.length) {
+  firebase.initializeApp(config);
+}
 const db = firebase.database();
 
 
@@ -34,7 +35,13 @@ class LoginPage extends Component {
 	render(){
 		const actions = this.props.actions;
 		return <FBLogin
-			buttonView={<FBLoginView />}
+			style={{
+				textAlign: 'center',
+				flex: 1,
+				justifyContent: 'center',
+				padding: 20,
+				marginTop: 300
+			}}
 			ref={(fbLogin) => { this.fbLogin = fbLogin }}
 			loginBehavior={FBLoginManager.LoginBehaviors.Native}
 			permissions={["email"]}
