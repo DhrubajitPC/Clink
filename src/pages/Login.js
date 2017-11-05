@@ -63,7 +63,7 @@ class LoginPage extends Component {
 									lastName: val.lastName,
 									email: val.email,
 									qrCode: val.qrCode,
-									photo_url: val.photo,
+									photo_url: val.photo_url,
 									companyName: val.companyName,
 									companyPosition: val.companyPosition,
 									uid: val.uid,

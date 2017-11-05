@@ -87,7 +87,7 @@ class ProfilePage extends Component {
 				firstName: fbProfile.first_name,
 				lastName: fbProfile.last_name,
 				email: fbProfile.email,
-				photo: fbProfile.picture.data.url,
+				photo_url: fbProfile.picture.data.url,
 				uid: props.firebase_uid,
 			};
 		} else {
@@ -95,7 +95,7 @@ class ProfilePage extends Component {
 				firstName: user.firstName,
 				lastName: user.lastName,
 				email: user.email,
-				photo: user.photo,
+				photo_url: user.photo_url,
 				contactNumber: user.contactNumber,
 				companyName: user.companyName,
 				companyPosition: user.companyPosition,
@@ -126,16 +126,17 @@ class ProfilePage extends Component {
 	}
 
 	render(){
-		console.log('profile page render')
-		console.log(this.state.value, this.props.fbProfile);
+		console.log('profile page render', this.state.value);
+		console.log('user ', this.props.user)
+		// console.log(this.state.value, this.props.fbProfile);
 		return (<ScrollView style={styles.container}>
-				<Image source={{ uri: this.state.value.photo }} style={{ width: 50, height: 50 }}/>
 				<QRCode
 					value={this.state.value.uid}
 					size={200}
 					bgColor='black'
 					fgColor='white'
 				/>
+				<Image source={{ uri: this.state.value.photo_url }} style={{ width: 100, height: 100 }}/>
 				<Form
 					ref = { ref => this._form = ref}
 					type = {type}
