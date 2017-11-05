@@ -6,6 +6,7 @@ import {
 	StyleSheet,
 	Button,
 	Image,
+	ScrollView,
 } from 'react-native';
 import PropTypes from 'prop-types'
 import { Actions } from 'react-native-router-flux';
@@ -22,6 +23,9 @@ const Form = t.form.Form;
 // firebase
 import * as firebase from 'firebase';
 const db = firebase.database();
+
+// qr code
+import QRCode from 'react-native-qrcode';
 
 const type = t.struct({
 		firstName: t.String,
@@ -124,8 +128,14 @@ class ProfilePage extends Component {
 	render(){
 		console.log('profile page render')
 		console.log(this.state.value, this.props.fbProfile);
-		return (<View style={styles.container}>
+		return (<ScrollView style={styles.container}>
 				<Image source={{ uri: this.state.value.photo }} style={{ width: 50, height: 50 }}/>
+				<QRCode
+					value={this.state.value.uid}
+					size={200}
+					bgColor='black'
+					fgColor='white'
+				/>
 				<Form
 					ref = { ref => this._form = ref}
 					type = {type}
@@ -137,7 +147,7 @@ class ProfilePage extends Component {
 					onPress={this.onSave}
 					title="Save"
 				/>
-			</View>);
+			</ScrollView>);
 	}
 }
 
@@ -145,8 +155,8 @@ class ProfilePage extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    // justifyContent: 'center',
+    // alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
   welcome: {
