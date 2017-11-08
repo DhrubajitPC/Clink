@@ -45,17 +45,7 @@ class LoginPage extends Component {
         db.ref(`users/${uid}`).once('value', snapshot => {
           const val = snapshot.val();
           if(!!val) {
-            const user = {
-              firstName: val.firstName,
-              lastName: val.lastName,
-              email: val.email,
-              qrCode: val.qrCode,
-              photo_url: val.photo_url,
-              companyName: val.companyName,
-              companyPosition: val.companyPosition,
-              contactNumber: val.contactNumber,
-              uid: val.uid,
-            }
+            const user = val;
             this.props.actions.updateUser(user);
             this.setState({
               loading: false,
