@@ -17,6 +17,9 @@ import * as actions from '../actionCreators';
 // Camera
 import Camera from 'react-native-camera';
 
+// other components
+import BottomNavBar from '../components/bottomNavBar';
+
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
     'Cmd+D or shake for dev menu',
@@ -73,33 +76,36 @@ class HomePage extends Component {
 	};
 
 	render(){
-		return <View style={styles.container}>
-			<Text style={styles.welcome}>
-				Welcome to React Native!
-			</Text>
-			<Text style={styles.instructions}>
-				To get started, edit App.js
-			</Text>
-			<Text style={styles.instructions}>
-				{instructions}
-			</Text>
-			<Button
-				title="Profile"
-				onPress={Actions.profile} />
-			<Button
-				title="Scan"
-				onPress={() => this.setState({ showCamera: true })} />
-			<Modal
-          animationType="slide"
-          transparent={false}
-          visible={this.state.showCamera}
-          onRequestClose={() => {this.setState({showCamera: false})}}
-          >
-         <View style={{flex: 1}}>
-           {this.renderCamera()}
-         </View>
-      </Modal>
-		</View>
+		return (
+          <View style={styles.container}>
+      			<Text style={styles.welcome}>
+      				Welcome to React Native!
+      			</Text>
+      			<Text style={styles.instructions}>
+      				To get started, edit App.js
+      			</Text>
+      			<Text style={styles.instructions}>
+      				{instructions}
+      			</Text>
+      			<Button
+      				title="Profile"
+      				onPress={Actions.profile} />
+      			<Button
+      				title="Scan"
+      				onPress={() => this.setState({ showCamera: true })} />
+      			<Modal
+              animationType="slide"
+              transparent={false}
+              visible={this.state.showCamera}
+              onRequestClose={() => {this.setState({showCamera: false})}}
+              >
+              <View style={{flex: 1}}>
+                {this.renderCamera()}
+              </View>
+            </Modal>
+            <BottomNavBar navbarStyle={{ position: 'absolute', bottom: 0 }}/>
+          </View>
+        )
 	}
 }
 
@@ -110,6 +116,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+    position: 'relative'
   },
   welcome: {
     fontSize: 20,
