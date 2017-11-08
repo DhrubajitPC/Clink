@@ -53,6 +53,7 @@ class LoginPage extends Component {
               photo_url: val.photo_url,
               companyName: val.companyName,
               companyPosition: val.companyPosition,
+              contactNumber: val.contactNumber,
               uid: val.uid,
             }
             this.props.actions.updateUser(user);
