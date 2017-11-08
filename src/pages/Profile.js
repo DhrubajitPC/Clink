@@ -27,6 +27,9 @@ const db = firebase.database();
 // qr code
 import QRCode from 'react-native-qrcode';
 
+// other components
+import BottomNavBar from '../components/bottomNavBar';
+
 const type = t.struct({
 		firstName: t.String,
 		lastName: t.String,
@@ -76,7 +79,6 @@ const options = {
 }
 
 class ProfilePage extends Component {
-
 	constructor(props){
 		super(props);
 		console.log('props ', props);
@@ -104,6 +106,7 @@ class ProfilePage extends Component {
 		}
 		this.state = {
 			value: initialValues,
+      disableBottomNavbar: !!this.props.firebase_uid,
 		};
 		this.onChange = this.onChange.bind(this);
 		this.onSave = this.onSave.bind(this);
@@ -128,27 +131,32 @@ class ProfilePage extends Component {
 	render(){
 		console.log('profile page render', this.state.value);
 		console.log('user ', this.props.user)
-		// console.log(this.state.value, this.props.fbProfile);
-		return (<ScrollView style={styles.container}>
-				<QRCode
-					value={this.state.value.uid}
-					size={200}
-					bgColor='black'
-					fgColor='white'
-				/>
-				<Image source={{ uri: this.state.value.photo_url }} style={{ width: 100, height: 100 }}/>
-				<Form
-					ref = { ref => this._form = ref}
-					type = {type}
-					options = {options}
-					value = {this.state.value}
-					onChange = {this.onChange}
-				/>
-				<Button
-					onPress={this.onSave}
-					title="Save"
-				/>
-			</ScrollView>);
+    const margin = this.state.disableBottomNavbar ? {} : {marginBottom: 40};
+		return (
+      <View style={{ position: 'relative', flex: 1 }}>
+        <ScrollView style={[styles.container, margin]}>
+          <QRCode
+            value={this.state.value.uid}
+            size={200}
+            bgColor='black'
+            fgColor='white'
+          />
+          <Image source={{ uri: this.state.value.photo_url }} style={{ width: 100, height: 100 }}/>
+          <Form
+            ref = { ref => this._form = ref}
+            type = {type}
+            options = {options}
+            value = {this.state.value}
+            onChange = {this.onChange}
+          />
+          <Button
+            onPress={this.onSave}
+            title="Save"
+          />
+        </ScrollView>
+        {!this.state.disableBottomNavbar ? <BottomNavBar navbarStyle={{ bottom: 0, position: 'absolute' }}/> : null}
+      </View>
+    );
 	}
 }
 
@@ -156,8 +164,6 @@ class ProfilePage extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
   welcome: {
