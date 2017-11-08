@@ -23,12 +23,12 @@ class BottomNavBar extends Component {
     render(){
         return(
             <View style={[styles.bottomNavBar, this.props.navbarStyle]}>
-                <TouchableOpacity onPress={() => console.log('pressed home')} activeOpacity={0.5}>
+                <TouchableOpacity onPress={() => { console.log('pressed home'); Actions.home(); }} activeOpacity={0.5}>
                     <Text>
                         Home
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => {console.log('pressed profile'); Actions.profile({ uid: this.props.user.uid });}} activeOpacity={0.5}>
+                <TouchableOpacity onPress={() => { console.log('pressed profile'); Actions.profile({ uid: this.props.user.uid }); }} activeOpacity={0.5}>
                     <Text>
                         Profile
                     </Text>
