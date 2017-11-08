@@ -21,6 +21,9 @@ import {
   Router
 } from 'react-native-router-flux';
 
+// native base
+import { Root } from "native-base";
+
 // Redux
 import { connect, Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -44,27 +47,29 @@ import Profile from './pages/Profile';
 export default class App extends Component<{}> {
   render() {
     return (
-      <Provider store={store}>
-        <RouterWithRedux>
-          <Stack key='root'>
-            <Scene
-              key='login'
-              component={Login}
-              title='Login'
-              initial />
-            <Scene
-              key='home'
-              title='Clink'
-              component={Home}
-            />
-            <Scene
-              title='Profile'
-              key='profile'
-              component={Profile}
-            />
-          </Stack>
-        </RouterWithRedux>
-      </Provider>
+      <Root>
+        <Provider store={store}>
+          <RouterWithRedux>
+            <Stack key='root'>
+              <Scene
+                key='login'
+                component={Login}
+                title='Login'
+                initial />
+              <Scene
+                key='home'
+                title='Clink'
+                component={Home}
+              />
+              <Scene
+                title='Profile'
+                key='profile'
+                component={Profile}
+              />
+            </Stack>
+          </RouterWithRedux>
+        </Provider>
+      </Root>
     );
   }
 }
