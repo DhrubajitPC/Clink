@@ -20,7 +20,7 @@ export default function reducer(state = initialState, action = {}){
 	switch (action.type){
 
 		case UPDATE_LEADS:
-			const lead = action.payload;
+			const lead = action.payload.lead;
 			return {
 				...state,
 				leads: Object.assign({}, state.leads, lead),
