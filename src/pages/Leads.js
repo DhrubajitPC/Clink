@@ -38,28 +38,40 @@ class LeadsPage extends Component {
     return (
       <Container>
         <Content>
-          <List dataArray={items}
-            renderRow={(item) =>
-              <ListItem avatar style={{ marginLeft: 0 }}>
-                <Left>
-                  <Thumbnail source={{ uri: item.photo_url }} />
-                </Left>
-                <Body>
-                  <Text>{this.capitalizeFirstLetter(item.firstName)} {this.capitalizeFirstLetter(item.lastName)}</Text>
-                  <Text note>{item.companyPosition}, {item.companyName}</Text>
-                  <Text note/>
-                </Body>
-                <Right justifyContent={'space-around'}>
-                  <Text style={{
-                    textAlign: 'center',
-                    fontSize: 12,
-                    color: '#00CE9F',
-                    padding: 20,
-                  }} onPress={() => Actions.leadsDetails({ item: item })}>View</Text>
-                </Right>
-              </ListItem>
-            }>
-          </List>
+          {
+            items.length > 0 ?
+              <List dataArray={items}
+                renderRow={(item) =>
+                  <ListItem avatar style={{ marginLeft: 0 }}>
+                    <Left>
+                      <Thumbnail source={{ uri: item.photo_url }} />
+                    </Left>
+                    <Body>
+                      <Text>{this.capitalizeFirstLetter(item.firstName)} {this.capitalizeFirstLetter(item.lastName)}</Text>
+                      <Text note>{item.companyPosition}, {item.companyName}</Text>
+                      <Text note/>
+                    </Body>
+                    <Right justifyContent={'space-around'} flexDirection={'row'}>
+                      <Text style={{
+                        textAlign: 'center',
+                        fontSize: 12,
+                        color: '#00CE9F',
+                        padding: 10,
+                        // backgroundColor: 'blue'
+                      }} onPress={() => Actions.leadsDetails({ item: item })}>View</Text>
+                      {/* <Text style={{
+                        textAlign: 'center',
+                        fontSize: 12,
+                        color: '#ff5151',
+                        padding: 10,
+                        // backgroundColor: 'blue'
+                      }} onPress={() => Actions.leadsDetails({ item: item })}>Delete</Text> */}
+                    </Right>
+                  </ListItem>
+                }>
+              </List> :
+              <Text>You do not have any leads at the moment.</Text>
+            }
         </Content>
       </Container>
     );
