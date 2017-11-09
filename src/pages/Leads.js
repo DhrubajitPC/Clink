@@ -53,7 +53,8 @@ class LeadsPage extends Component {
                   <Text style={{
                     textAlign: 'center',
                     fontSize: 12,
-                    color: '#00CE9F'
+                    color: '#00CE9F',
+                    padding: 20,
                   }} onPress={() => Actions.leadsDetails({ item: item })}>View</Text>
                 </Right>
               </ListItem>
