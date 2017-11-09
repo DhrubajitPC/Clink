@@ -55,6 +55,7 @@ export default class LeadsDetailsPage extends Component {
                   fontSize: 12,
                   color: '#00CE9F',
                   padding: 10,
+                  paddingLeft: 0,
                 }} onPress={() => this.setState({ qrVisible: true })}>Show QR Code</Text>
             </CardItem>
           </Card>
