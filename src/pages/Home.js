@@ -198,7 +198,7 @@ class HomePage extends Component {
                 }
                 ref={(fbLogin) => { this.fbLogin = fbLogin }}
                 loginBehavior={FBLoginManager.LoginBehaviors.Native}
-                permissions={["email"]}
+                permissions={["email", "public_profile"]}
                 onLogin={function(e){console.log(e)}}
                 onLoginFound={function(e){console.log(e)}}
                 onLoginNotFound={function(e){console.log(e)}}
