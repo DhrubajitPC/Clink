@@ -45,8 +45,6 @@ class HomePage extends Component {
 		super(props);
 		this.state={
 			showCamera: false,
-      scannedUid: '',
-      scannedUserName: '',
       otherUser: {},
       showPrompt: false,
 			camera: {
@@ -81,9 +79,7 @@ class HomePage extends Component {
         const data = snapshot.val();
         if (data) {
           this.setState({
-            scannedUid: otherUid,
             showPrompt: true, // prompt to add to user and update redux
-            scannedUserName: data.firstName,
             otherUser: data,
           });
         } else {
@@ -117,33 +113,31 @@ class HomePage extends Component {
 
   addUser() {
     const uid = this.props.user.uid;
-    db.ref(`users/${this.props.user.uid}/leads/`).orderByValue().equalTo(this.state.scannedUid).once('value', snapshot => {
+    db.ref(`users/${this.props.user.uid}/leads/`).orderByValue().equalTo(this.state.otherUser.uid).once('value', snapshot => {
       if (!snapshot.val()) {
-        const key = db.ref(`users/${uid}/leads`).push(this.state.scannedUid).key;
+        const key = db.ref(`users/${uid}/leads`).push(this.state.otherUser.uid).key;
         const lead = {};
-        lead[key] = this.state.scannedUid;
+        lead[key] = this.state.otherUser.uid;
         this.props.actions.updateLeads(lead);
 
 
         Toast.show({
-          text: `Successfully clinked with ${this.state.scannedUserName}!`,
+          text: `Successfully clinked with ${this.state.otherUser.firstName}!`,
           position: 'bottom',
           buttonText: 'Okay',
         });
         const otherUser = {};
-        otherUser[this.state.scannedUid] = this.state.otherUser;
+        otherUser[this.state.otherUser.uid] = this.state.otherUser;
         console.log(otherUser);
         this.props.actions.addUserToLeads(otherUser);
       } else {
         Toast.show({
-          text: `${this.state.scannedUid} already clinked!`,
+          text: `${this.state.otherUser.firstName} is already clinked!`,
           position: 'bottom',
           buttonText: 'Okay',
         });
       }
       this.setState({
-        scannedUid: '',
-        scannedUserName: '',
         otherUser: {},
         showPrompt: false,
       });
@@ -263,7 +257,7 @@ class HomePage extends Component {
                   textAlign: 'center',
                   paddingTop: 40,
                   fontSize: 15
-                }}>Would you like to clink with {this.state.scannedUserName}?</Text>
+                }}>Would you like to clink with {this.state.otherUser.firstName}?</Text>
                 <View style={{
                   flexDirection: 'row',
                   position: 'absolute',
