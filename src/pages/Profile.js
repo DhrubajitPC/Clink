@@ -7,6 +7,7 @@ import {
 	Button,
 	Image,
 	ScrollView,
+  Dimensions,
 } from 'react-native';
 import PropTypes from 'prop-types'
 import { Actions } from 'react-native-router-flux';
@@ -24,11 +25,9 @@ const Form = t.form.Form;
 import * as firebase from 'firebase';
 const db = firebase.database();
 
-// qr code
-import QRCode from 'react-native-qrcode';
-
 // other components
 import BottomNavBar from '../components/bottomNavBar';
+import QrModal from '../components/QrModal';
 
 const type = t.struct({
 		firstName: t.String,
@@ -107,6 +106,7 @@ class ProfilePage extends Component {
 		this.state = {
 			value: initialValues,
       disableBottomNavbar: !!this.props.firebase_uid,
+      qrVisible: false,
 		};
 		this.onChange = this.onChange.bind(this);
 		this.onSave = this.onSave.bind(this);
@@ -135,13 +135,16 @@ class ProfilePage extends Component {
 		return (
       <View style={{ position: 'relative', flex: 1 }}>
         <ScrollView style={[styles.container, margin]}>
-          <QRCode
-            value={this.state.value.uid}
-            size={200}
-            bgColor='black'
-            fgColor='white'
-          />
-          <Image source={{ uri: this.state.value.photo_url }} style={{ width: 100, height: 100 }}/>
+          <View style={{ flexDirection: 'row', paddingVertical: 10 }}>
+            <Image source={{ uri: this.state.value.photo_url }} style={{ borderRadius: 100, width: 100, height: 100 }}/>
+            <View style={{ justifyContent: 'space-around', paddingLeft: 20 }}>
+              <Text style={{
+                textAlign: 'center',
+                fontSize: 12,
+                color: '#00CE9F'
+              }} onPress={() => this.setState({ qrVisible: true })}>View Qr Code</Text>
+            </View>
+          </View>
           <Form
             ref = { ref => this._form = ref}
             type = {type}
@@ -149,12 +152,19 @@ class ProfilePage extends Component {
             value = {this.state.value}
             onChange = {this.onChange}
           />
-          <Button
-            onPress={this.onSave}
-            title="Save"
-          />
+          <View style={{ paddingBottom: 10 }}>
+            <Button
+              onPress={this.onSave}
+              title="Save"
+            />
+          </View>
         </ScrollView>
         {!this.state.disableBottomNavbar ? <BottomNavBar navbarStyle={{ bottom: 0, position: 'absolute' }}/> : null}
+        <QrModal
+          onClose={() => this.setState({ qrVisible: false })}
+          visible={this.state.qrVisible}
+          qrValue={this.state.value.uid}
+        />
       </View>
     );
 	}
@@ -165,16 +175,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+    paddingHorizontal: 10,
   },
 });
 
