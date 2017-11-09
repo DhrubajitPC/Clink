@@ -37,8 +37,8 @@ if (!firebase.apps.length) {
 }
 const db = firebase.database();
 
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
+const _width = Dimensions.get('window').width;
+const _height = Dimensions.get('window').height;
 
 class HomePage extends Component {
 	constructor(props){
@@ -156,7 +156,7 @@ class HomePage extends Component {
                 onPress={() => this.setState({ showCamera: true })}
                 style={{
                   backgroundColor: '#00CE9F',
-                  width: width * 0.7,
+                  width: _width * 0.7,
                   alignSelf: 'center',
                   padding: 40,
                   borderRadius: 5,
@@ -173,7 +173,7 @@ class HomePage extends Component {
                 onPress={Actions.leads}
                 style={{
                   backgroundColor: '#635DB7',
-                  width: width * 0.7,
+                  width: _width * 0.7,
                   alignSelf: 'center',
                   padding: 40,
                   borderRadius: 5,
@@ -194,7 +194,7 @@ class HomePage extends Component {
                     }}
                     style={{
                       backgroundColor: '#003366',
-                      width: width * 0.7,
+                      width: _width * 0.7,
                       alignSelf: 'center',
                       padding: 40,
                       borderRadius: 5,
@@ -247,8 +247,8 @@ class HomePage extends Component {
               alignItems: 'center',
             }}>
               <View style={{
-                width: width * 0.8,
-                height: height * 0.3,
+                width: _width * 0.8,
+                height: _height * 0.3,
                 borderRadius: 5,
                 backgroundColor: '#333',
                 position: 'relative',
@@ -266,7 +266,7 @@ class HomePage extends Component {
                   backgroundColor: '#ccc',
                 }}>
                   <TouchableOpacity activeOpacity={0.5} onPress={this.addUser} style={{
-                    width: width * 0.4,
+                    width: _width * 0.4,
                   }}>
                     <Text style={{
                       fontSize: 16,
@@ -276,7 +276,7 @@ class HomePage extends Component {
                     }}>Yes</Text>
                   </TouchableOpacity>
                   <TouchableOpacity activeOpacity={0.5} onPress={() => this.setState({ showPrompt: false })} style={{
-                    width: width * 0.4,
+                    width: _width * 0.4,
                   }}>
                     <Text style={{
                       fontSize: 16,
