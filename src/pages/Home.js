@@ -26,6 +26,9 @@ import { Col, Row, Grid } from 'react-native-easy-grid';
 // other components
 import BottomNavBar from '../components/bottomNavBar';
 
+// facebook oauth
+import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
+
 // firebase
 import config from '../config';
 import * as firebase from 'firebase';
@@ -183,19 +186,36 @@ class HomePage extends Component {
           </Grid>
           <Grid>
             <Col style={{ justifyContent: 'space-around', padding: 20 }}>
-              <TouchableOpacity
-                onPress={() => this.setState({ showCamera: true })}
-                style={{
-                  backgroundColor: '#003366',
-                  width: width * 0.7,
-                  alignSelf: 'center',
-                  padding: 40,
-                  borderRadius: 5,
-               }}
-               activeOpacity={0.5}
-              >
-                  <Text style={{ textAlign: 'center', fontSize: 20, color: '#fff' }}>Log Out</Text>
-              </TouchableOpacity>
+              <FBLogin
+                buttonView={
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.fbLogin.logout();
+                    }}
+                    style={{
+                      backgroundColor: '#003366',
+                      width: width * 0.7,
+                      alignSelf: 'center',
+                      padding: 40,
+                      borderRadius: 5,
+                   }}
+                   activeOpacity={0.5}
+                  >
+                      <Text style={{ textAlign: 'center', fontSize: 20, color: '#fff' }}>Log Out</Text>
+                  </TouchableOpacity>
+                }
+                ref={(fbLogin) => { this.fbLogin = fbLogin }}
+                loginBehavior={FBLoginManager.LoginBehaviors.Native}
+                permissions={["email"]}
+                onLogin={function(e){console.log(e)}}
+                onLoginFound={function(e){console.log(e)}}
+                onLoginNotFound={function(e){console.log(e)}}
+                onLogout={function(e){
+                  Actions.login();
+                }}
+                onCancel={function(e){console.log(e)}}
+                onPermissionsMissing={function(e){console.log(e)}}
+              />
             </Col>
           </Grid>
         </Content>
