@@ -47,6 +47,7 @@ class HomePage extends Component {
 			showCamera: false,
       scannedUid: '',
       scannedUserName: '',
+      otherUser: {},
       showPrompt: false,
 			camera: {
 				aspect: Camera.constants.Aspect.fill,
@@ -81,10 +82,10 @@ class HomePage extends Component {
         if (data) {
           this.setState({
             scannedUid: otherUid,
-            showPrompt: true,
+            showPrompt: true, // prompt to add to user and update redux
             scannedUserName: data.firstName,
+            otherUser: data,
           });
-          // prompt to add to user and update redux
         } else {
           Toast.show({
             text: 'User not found',
@@ -121,16 +122,18 @@ class HomePage extends Component {
         const key = db.ref(`users/${uid}/leads`).push(this.state.scannedUid).key;
         const lead = {};
         lead[key] = this.state.scannedUid;
-        const leads = Object.assign({}, this.props.user.leads, lead );
-        const user = Object.assign({}, this.props.user, leads);
-        this.props.actions.updateUser(user);
-        // const leadsList = Object.values(user.leads);
-        // const currentLeadsList = Object.keys(this.props.leads)
+        this.props.actions.updateLeads(lead);
+
+
         Toast.show({
           text: `Successfully clinked with ${this.state.scannedUserName}!`,
           position: 'bottom',
           buttonText: 'Okay',
         });
+        const otherUser = {};
+        otherUser[this.state.scannedUid] = this.state.otherUser;
+        console.log(otherUser);
+        this.props.actions.addUserToLeads(otherUser);
       } else {
         Toast.show({
           text: `${this.state.scannedUid} already clinked!`,
@@ -138,15 +141,18 @@ class HomePage extends Component {
           buttonText: 'Okay',
         });
       }
-    });
-    this.setState({
-      scannedUid: '',
-      scannedUserName: '',
-      showPrompt: false,
+      this.setState({
+        scannedUid: '',
+        scannedUserName: '',
+        otherUser: {},
+        showPrompt: false,
+      });
     });
   }
 
 	render(){
+    console.log(this.props.user);
+    console.log(this.props.leads);
 		return (
       <Container>
         <Content>
@@ -357,6 +363,7 @@ const styles = StyleSheet.create({
 
 export default connect((state) => ({
     'user': state.user,
+    'leads': state.leads,
 }), (dispatch) => ({
     actions: bindActionCreators(actions, dispatch)
 })
