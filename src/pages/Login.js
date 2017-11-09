@@ -34,7 +34,8 @@ class LoginPage extends Component {
     this.afterLogin = this.afterLogin.bind(this);
 	}
 
-  afterLogin(token){
+  afterLogin(loginData){
+    const token = loginData.credentials.token;
     const credential = firebase.auth.FacebookAuthProvider.credential(token);
     firebase
       .auth()
@@ -65,7 +66,7 @@ class LoginPage extends Component {
             this.setState({
               loading: false,
             });
-            Actions.profile({fbProfile: e.profile, firebase_uid: uid, type: ActionConst.REPLACE});
+            Actions.profile({fbProfile: loginData.profile, firebase_uid: uid, type: ActionConst.REPLACE});
           }
         })
       })
@@ -112,20 +113,20 @@ class LoginPage extends Component {
             }}
             ref={(fbLogin) => { this.fbLogin = fbLogin }}
             loginBehavior={FBLoginManager.LoginBehaviors.Native}
-            permissions={["email"]}
+            permissions={["email", "public_profile"]}
             onLogin={function(e){
               console.log('login ', e);
               _this.setState({
                 loading: true,
               });
-              afterLogin(e.credentials.token);
+              afterLogin(e);
             }}
             onLoginFound={function(e){
               console.log('loginfound ', e);
               _this.setState({
                 loading: true,
               });
-              afterLogin(e.credentials.token);
+              afterLogin(e);
             }}
             onLoginNotFound={function(e){console.log('loginnotfound ', e)}}
             onLogout={function(e){console.log('logout ', e)}}
