@@ -4,7 +4,7 @@ import {
 	Text,
   Modal,
 } from 'react-native';
-import { Actions } from 'react-native-router-flux';
+import { Actions, ActionConst } from 'react-native-router-flux';
 
 // Redux
 import { bindActionCreators } from 'redux';
@@ -61,12 +61,12 @@ class LoginPage extends Component {
                 }
               });
             });
-            Actions.home();
+            Actions.replace('home');
           } else {
             this.setState({
               loading: false,
             });
-            Actions.profile({fbProfile: e.profile, firebase_uid: uid});
+            Actions.profile({fbProfile: e.profile, firebase_uid: uid, type: ActionConst.REPLACE});
           }
         })
       })

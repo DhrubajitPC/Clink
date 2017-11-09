@@ -211,7 +211,8 @@ class HomePage extends Component {
                 onLoginFound={function(e){console.log(e)}}
                 onLoginNotFound={function(e){console.log(e)}}
                 onLogout={function(e){
-                  Actions.login();
+                  Actions.reset('login');
+                  // Actions.replace('login');
                 }}
                 onCancel={function(e){console.log(e)}}
                 onPermissionsMissing={function(e){console.log(e)}}
