@@ -40,7 +40,6 @@ class LoginPage extends Component {
       .auth()
       .signInWithCredential(credential)
       .then(result => {
-        console.log('result ', result)
         const uid = result.uid;
         db.ref(`users/${uid}`).once('value', snapshot => {
           const val = snapshot.val();

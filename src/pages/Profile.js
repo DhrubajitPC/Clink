@@ -80,7 +80,6 @@ const options = {
 class ProfilePage extends Component {
 	constructor(props){
 		super(props);
-		console.log('props ', props);
 		const { fbProfile, user } = props;
 		let initialValues = {};
 		if(fbProfile){
@@ -129,8 +128,6 @@ class ProfilePage extends Component {
 	}
 
 	render(){
-		console.log('profile page render', this.state.value);
-		console.log('user ', this.props.user)
     const margin = this.state.disableBottomNavbar ? {} : {marginBottom: 40};
 		return (
       <View style={{ position: 'relative', flex: 1 }}>

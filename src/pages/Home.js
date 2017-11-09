@@ -59,22 +59,18 @@ class HomePage extends Component {
 	}
 
 	onBarCodeRead(val){
-		console.log('bar code read');
-		console.log(val);
     const uid = this.props.user.uid;
     const otherUid = val.data;
     this.setState({
       showCamera: false,
     });
     if (uid == otherUid) {
-      console.log('supposed to show toast now')
       Toast.show({
         text: 'You can\'t add yourself as a lead!',
         position: 'bottom',
         buttonText: 'Okay'
       });
     } else {
-      console.log('supposed to show prompt');
       db.ref(`users/${otherUid}`).once('value', snapshot => {
         const data = snapshot.val();
         if (data) {
@@ -94,7 +90,6 @@ class HomePage extends Component {
 	}
 
 	renderCamera() {
-		console.log('rendering camera', this.state.showCamera);
 		return <Camera
 					ref={cam => {
 						this.camera = cam;
@@ -128,7 +123,6 @@ class HomePage extends Component {
         });
         const otherUser = {};
         otherUser[this.state.otherUser.uid] = this.state.otherUser;
-        console.log(otherUser);
         this.props.actions.addUserToLeads(otherUser);
       } else {
         Toast.show({
@@ -145,8 +139,6 @@ class HomePage extends Component {
   }
 
 	render(){
-    console.log(this.props.user);
-    console.log(this.props.leads);
 		return (
       <Container>
         <Content>
@@ -212,7 +204,6 @@ class HomePage extends Component {
                 onLoginNotFound={function(e){console.log(e)}}
                 onLogout={function(e){
                   Actions.reset('login');
-                  // Actions.replace('login');
                 }}
                 onCancel={function(e){console.log(e)}}
                 onPermissionsMissing={function(e){console.log(e)}}

@@ -54,7 +54,6 @@ class LeadsPage extends Component {
 
   deleteUser() {
     const otherUser = this.state.deleteUser;
-    console.log(this.props);
     db.ref(`users/${this.props.user.uid}/leads`).orderByValue().equalTo(otherUser.uid).once('value', snapshot => {
       const val = snapshot.val();
       if(val){
