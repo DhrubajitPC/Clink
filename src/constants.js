@@ -1,2 +1,4 @@
 export const UPDATE_USER = 'UPDATE_USER';
 export const UPDATE_LEADS = 'UPDATE_LEADS';
+export const ADD_USER_TO_LEADS = 'ADD_USER_TO_LEADS';
+export const REMOVE_USER_FROM_LEADS = 'REMOVE_USER_FROM_LEADS';
