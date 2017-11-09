@@ -22,6 +22,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../actionCreators';
 
+import { Actions } from 'react-native-router-flux';
+
 class LeadsPage extends Component {
   constructor(props){
     super(props);
@@ -52,7 +54,7 @@ class LeadsPage extends Component {
                     textAlign: 'center',
                     fontSize: 12,
                     color: '#00CE9F'
-                  }} onPress={() => console.log('tried to view')}>View</Text>
+                  }} onPress={() => Actions.leadsDetails({ item: item })}>View</Text>
                 </Right>
               </ListItem>
             }>
