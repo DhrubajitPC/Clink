@@ -50,6 +50,17 @@ class LoginPage extends Component {
             this.setState({
               loading: false,
             });
+            const leadsList = user.leads ? Object.values(user.leads) : [];
+            leadsList.forEach(uid => {
+              db.ref(`users/${uid}`).once('value', snapshot => {
+                const val = snapshot.val();
+                if (val) {
+                  const otherUser = {};
+                  otherUser[uid] = val;
+                  this.props.actions.addUserToLeads(otherUser);
+                }
+              });
+            });
             Actions.home();
           } else {
             this.setState({
