@@ -42,6 +42,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Leads from './pages/Leads';
+import LeadsDetails from './pages/LeadsDetails';
 
 // require('./config');
 
@@ -71,6 +72,11 @@ export default class App extends Component<{}> {
                 key='leads'
                 title='Leads'
                 component={Leads}
+              />
+              <Scene
+                key='leadsDetails'
+                title='Lead Details'
+                component={LeadsDetails}
               />
             </Stack>
           </RouterWithRedux>
