@@ -15,7 +15,7 @@ export default function reducer (state = initialState, action = {}){
 
     case REMOVE_USER_FROM_LEADS:
       const leads = Object.assign({}, state);
-      user = actions.payload.user;
+      user = action.payload.user;
       delete leads[user.uid];
       return leads;
 
