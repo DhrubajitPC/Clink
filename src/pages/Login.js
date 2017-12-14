@@ -106,7 +106,6 @@ class LoginPage extends Component {
         }
         <FBLogin
             style={{
-              textAlign: 'center',
               flex: 1,
               justifyContent: 'center',
               padding: 20,
