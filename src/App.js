@@ -51,7 +51,9 @@ export default class App extends Component<{}> {
     return (
       <Root>
         <Provider store={store}>
-          <RouterWithRedux>
+          <RouterWithRedux
+            backAndroidHandler={() => {}}
+            >
             <Stack key='root'>
               <Scene
                 key='login'

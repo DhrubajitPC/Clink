@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
 	View,
 	Text,
@@ -8,8 +8,10 @@ import {
 	Modal,
   TouchableOpacity,
   Dimensions,
+  BackHandler,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import RNExitApp from 'react-native-exit-app';
 
 // Redux
 import { bindActionCreators } from 'redux';
@@ -27,7 +29,7 @@ import { Col, Row, Grid } from 'react-native-easy-grid';
 import BottomNavBar from '../components/bottomNavBar';
 
 // facebook oauth
-import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
+import { FBLogin, FBLoginManager } from 'react-native-facebook-login';
 
 // firebase
 import config from '../config';
@@ -47,6 +49,7 @@ class HomePage extends Component {
 			showCamera: false,
       otherUser: {},
       showPrompt: false,
+      backPressedOnce: false,
 			camera: {
 				aspect: Camera.constants.Aspect.fill,
 				type: Camera.constants.Type.back,
@@ -56,7 +59,36 @@ class HomePage extends Component {
 		this.renderCamera = this.renderCamera.bind(this);
 		this.onBarCodeRead = this.onBarCodeRead.bind(this);
     this.addUser = this.addUser.bind(this);
+    this.handleBackButton = this.handleBackButton.bind(this);
 	}
+
+  componentDidMount(){
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton.bind(this));
+  }
+
+  componentWillUnmount(){
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton.bind(this));
+  }
+
+  handleBackButton(){
+    if(Actions.state.index === 0) {
+      if(this.state.backPressedOnce) {
+        RNExitApp.exitApp();
+      }
+      Toast.show({
+        text: 'Press back to not again to exit',
+        position: 'bottom',
+        buttonText: 'Okay'
+      });
+      this.setState({ backPressedOnce: true });
+      setTimeout(() => {
+        this.setState({ backPressedOnce: false });
+      }, 2000);
+    } else {
+      Actions.pop();
+    }
+    return true;
+  }
 
 	onBarCodeRead(val){
     const uid = this.props.user.uid;

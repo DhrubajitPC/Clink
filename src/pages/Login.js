@@ -1,10 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
 	View,
 	Text,
   Modal,
+  BackHandler,
 } from 'react-native';
 import { Actions, ActionConst } from 'react-native-router-flux';
+
+import RNExitApp from 'react-native-exit-app';
 
 // Redux
 import { bindActionCreators } from 'redux';
@@ -12,10 +15,10 @@ import { connect } from 'react-redux';
 import * as actions from '../actionCreators';
 
 // native-base
-import { Spinner } from 'native-base';
+import { Spinner, Toast } from 'native-base';
 
 // facebook oauth
-import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
+import { FBLogin, FBLoginManager } from 'react-native-facebook-login';
 
 //firebase
 import config from '../config';
@@ -30,9 +33,35 @@ class LoginPage extends Component {
 		super(props);
     this.state = {
       loading: false,
+      backPressedOnce: false,
     };
     this.afterLogin = this.afterLogin.bind(this);
+    this.handleBackButton = this.handleBackButton.bind(this);
 	}
+
+  componentDidMount(){
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton.bind(this));
+  }
+
+  componentWillUnmount(){
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton.bind(this));
+  }
+
+  handleBackButton(){
+    if(this.state.backPressedOnce) {
+      RNExitApp.exitApp();
+    }
+    Toast.show({
+      text: 'Press back again to exit',
+      position: 'bottom',
+      buttonText: 'Okay'
+    });
+    this.setState({ backPressedOnce: true });
+    setTimeout(() => {
+      this.setState({ backPressedOnce: false });
+    }, 2000);
+    return true;
+  }
 
   afterLogin(loginData){
     const token = loginData.credentials.token;
