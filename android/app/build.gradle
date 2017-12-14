@@ -154,6 +154,7 @@ repositories {
 }
 
 dependencies {
+    compile project(':react-native-exit-app')
     compile project(':react-native-facebook-login')
     compile project(':react-native-camera')
     compile fileTree(dir: "libs", include: ["*.jar"])

@@ -12,6 +12,7 @@
 		"react": "16.0.0-beta.5",
 		"react-native": "0.49.5",
 		"react-native-camera": "^0.10.0",
+		"react-native-exit-app": "^1.0.0",
 		"react-native-facebook-login": "^1.6.0",
 		"react-native-qrcode": "^0.2.6",
 		"react-native-router-flux": "^4.0.0-beta.22",
