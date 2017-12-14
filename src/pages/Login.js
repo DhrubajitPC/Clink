@@ -4,6 +4,7 @@ import {
 	Text,
   Modal,
   BackHandler,
+  Dimensions,
 } from 'react-native';
 import { Actions, ActionConst } from 'react-native-router-flux';
 
@@ -27,6 +28,7 @@ if (!firebase.apps.length) {
   firebase.initializeApp(config);
 }
 const db = firebase.database();
+const _width = Dimensions.get('window').width;
 
 class LoginPage extends Component {
 	constructor(props){
@@ -137,8 +139,12 @@ class LoginPage extends Component {
             style={{
               flex: 1,
               justifyContent: 'center',
-              padding: 20,
+              padding: 40,
+              alignSelf: 'center',
+              width: _width * 0.7,
+              borderRadius: 5,
             }}
+            onClickColor={'transparent'}
             ref={(fbLogin) => { this.fbLogin = fbLogin }}
             loginBehavior={FBLoginManager.LoginBehaviors.Native}
             permissions={["email", "public_profile"]}
