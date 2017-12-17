@@ -135,6 +135,15 @@ class LoginPage extends Component {
           </Modal>
           : null
         }
+        <View style={{
+          alignSelf: 'center',
+          marginBottom: 40
+        }}>
+          <Text style={{
+            fontSize: 26,
+            color: '#2980b9',
+          }}>Welcome to Clink</Text>
+        </View>
         <FBLogin
             style={{
               flex: 1,
