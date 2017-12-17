@@ -83,7 +83,7 @@ class HomePage extends Component {
         RNExitApp.exitApp();
       }
       Toast.show({
-        text: 'Press back to not again to exit',
+        text: 'Press back again to exit',
         position: 'bottom',
         buttonText: 'Okay'
       });
