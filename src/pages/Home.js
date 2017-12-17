@@ -7,8 +7,10 @@ import {
 	Button,
 	Modal,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   Dimensions,
   BackHandler,
+  Image,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import RNExitApp from 'react-native-exit-app';
@@ -22,7 +24,7 @@ import * as actions from '../actionCreators';
 import Camera from 'react-native-camera';
 
 // native base
-import { Container, Header, Content, Toast } from 'native-base';
+import { Container, Header, Content, Toast, Card, CardItem, Body } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 
 // other components
@@ -42,6 +44,10 @@ const db = firebase.database();
 const _width = Dimensions.get('window').width;
 const _height = Dimensions.get('window').height;
 
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 class HomePage extends Component {
 	constructor(props){
 		super(props);
@@ -50,6 +56,7 @@ class HomePage extends Component {
       otherUser: {},
       showPrompt: false,
       backPressedOnce: false,
+      showSuccessClinkModal: false,
 			camera: {
 				aspect: Camera.constants.Aspect.fill,
 				type: Camera.constants.Type.back,
@@ -147,11 +154,8 @@ class HomePage extends Component {
         lead[key] = this.state.otherUser.uid;
         this.props.actions.updateLeads(lead);
 
-
-        Toast.show({
-          text: `Successfully clinked with ${this.state.otherUser.firstName}!`,
-          position: 'bottom',
-          buttonText: 'Okay',
+        this.setState({
+          showSuccessClinkModal: true,
         });
         const otherUser = {};
         otherUser[this.state.otherUser.uid] = this.state.otherUser;
@@ -164,7 +168,6 @@ class HomePage extends Component {
         });
       }
       this.setState({
-        otherUser: {},
         showPrompt: false,
       });
     });
@@ -254,6 +257,49 @@ class HomePage extends Component {
             <View style={{flex: 1}}>
               {this.renderCamera()}
             </View>
+        </Modal>
+
+        {/* succesfully clinked modal */}
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={this.state.showSuccessClinkModal}
+          onRequestClose={() => { this.setState({ showSuccessClinkModal: false, otherUser: {} }); }}
+          >
+          <TouchableWithoutFeedback onPress={() => { this.setState({ showSuccessClinkModal: false, otherUser: {} }); }}>
+            <View style={{
+              flex: 1,
+              backgroundColor: 'rgba(238,238,238,0.4)',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+              {console.log('otherUser ', this.state.otherUser)}
+              {this.state.otherUser.firstName ?
+                <TouchableOpacity activeOpacity={0.5} onPress={() => { this.setState({ showSuccessClinkModal: false, otherUser: {} }); Actions.leadsDetails({ item: this.state.otherUser }) }}>
+                  <View style={{
+                    width: _width * 0.8,
+                    height: _height * 0.3,
+                    borderRadius: 5,
+                    backgroundColor: '#fff2ec',
+                    position: 'relative',
+                    justifyContent: 'space-around'
+                  }}>
+                    <Image source={{ uri: this.state.otherUser.photo_url }}
+                      style={{
+                        alignSelf: 'center',
+                        justifyContent:'center',
+                        height: 120,
+                        width: 120,
+                        borderRadius: 5,
+                        padding: 10,
+                      }}/>
+                    <Text style={{textAlign: 'center', fontSize: 15}}>
+                      You have succesfully clinked with {capitalizeFirstLetter(this.state.otherUser.firstName)} {capitalizeFirstLetter(this.state.otherUser.lastName)}
+                    </Text>
+                </View>
+              </TouchableOpacity> : null }
+            </View>
+          </TouchableWithoutFeedback>
         </Modal>
 
         {/* prompt modal */}
