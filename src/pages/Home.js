@@ -45,6 +45,7 @@ const _width = Dimensions.get('window').width;
 const _height = Dimensions.get('window').height;
 
 function capitalizeFirstLetter(string) {
+  if(!string) return;
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
@@ -266,40 +267,57 @@ class HomePage extends Component {
           visible={this.state.showSuccessClinkModal}
           onRequestClose={() => { this.setState({ showSuccessClinkModal: false, otherUser: {} }); }}
           >
-          <TouchableWithoutFeedback onPress={() => { this.setState({ showSuccessClinkModal: false, otherUser: {} }); }}>
             <View style={{
               flex: 1,
-              backgroundColor: 'rgba(238,238,238,0.4)',
-              justifyContent: 'center',
+              backgroundColor: 'rgba(50,50,50,0.8)',
+              justifyContent: 'space-around',
               alignItems: 'center',
             }}>
-              {console.log('otherUser ', this.state.otherUser)}
-              {this.state.otherUser.firstName ?
-                <TouchableOpacity activeOpacity={0.5} onPress={() => { this.setState({ showSuccessClinkModal: false, otherUser: {} }); Actions.leadsDetails({ item: this.state.otherUser }) }}>
-                  <View style={{
-                    width: _width * 0.8,
-                    height: _height * 0.3,
-                    borderRadius: 5,
-                    backgroundColor: '#fff2ec',
-                    position: 'relative',
-                    justifyContent: 'space-around'
-                  }}>
-                    <Image source={{ uri: this.state.otherUser.photo_url }}
+              <Text style={{textAlign: 'center', fontSize: 30, color:'white'}}>
+                {capitalizeFirstLetter(this.state.otherUser.firstName)} {capitalizeFirstLetter(this.state.otherUser.lastName)}
+              </Text>
+              <Image source={{ uri: this.state.otherUser.photo_url }}
+                style={{
+                  alignSelf: 'center',
+                  justifyContent:'center',
+                  height: 180,
+                  width: 180,
+                  borderRadius: 100,
+                  padding: 10,
+                }}/>
+                <View>
+                  <View style={{paddingBottom: 10}}>
+                    <TouchableOpacity
+                      onPress={() => { this.setState({ showSuccessClinkModal: false, otherUser: {} }); Actions.leadsDetails({ item: this.state.otherUser }) }}
                       style={{
+                        backgroundColor: '#00CE9F',
+                        width: _width * 0.6,
                         alignSelf: 'center',
-                        justifyContent:'center',
-                        height: 120,
-                        width: 120,
+                        padding: 20,
                         borderRadius: 5,
-                        padding: 10,
-                      }}/>
-                    <Text style={{textAlign: 'center', fontSize: 15}}>
-                      You have succesfully clinked with {capitalizeFirstLetter(this.state.otherUser.firstName)} {capitalizeFirstLetter(this.state.otherUser.lastName)}
-                    </Text>
+                     }}
+                     activeOpacity={0.5}
+                    >
+                        <Text style={{ textAlign: 'center', fontSize: 20, color: '#eee' }}>View</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View>
+                    <TouchableOpacity
+                      onPress={() => { this.setState({ showSuccessClinkModal: false, otherUser: {} }); }}
+                      style={{
+                        backgroundColor: '#FF5959',
+                        width: _width * 0.6,
+                        alignSelf: 'center',
+                        padding: 20,
+                        borderRadius: 5,
+                     }}
+                     activeOpacity={0.5}
+                    >
+                        <Text style={{ textAlign: 'center', fontSize: 20, color: '#eee' }}>Cancel</Text>
+                    </TouchableOpacity>
                 </View>
-              </TouchableOpacity> : null }
+              </View>
             </View>
-          </TouchableWithoutFeedback>
         </Modal>
 
         {/* prompt modal */}
